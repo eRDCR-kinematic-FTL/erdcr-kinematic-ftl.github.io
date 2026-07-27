@@ -71,18 +71,31 @@
     <h2 class="abstract-title">Abstract</h2>
 
     <p class="abstract-body">
-      Fixed-length continuum robots are limited in reachable workspace and in their ability to perform
-      follow-the-leader (FTL) motion in confined environments. This paper presents a rod-driven,
-      bellow backbone extensible continuum robot that achieves bending, extension, and retraction
-      through six absolute rod length inputs, without requiring a separate insertion actuator.
-      To model this coupled deformation and deployment behavior, we formulate an extensible
-      piecewise curvature (ePPC) framework that maps absolute rod lengths to curvature,
-      bending plane angle, and deployed segment length while incorporating length-dependent bending limits.
-      Based on this model, a closed-loop incremental QP controller is developed for bidirectional tip
-      tracking and FTL motion. Both segment-wise and coordinated FTL strategies are implemented
-      under the same variable-length framework. Experiments demonstrate accurate bidirectional tip
-      tracking and whole body shape following along planar and spatial paths, validating the proposed
-      design, model, and control framework.
+      Deployable and reconfigurable robots have attracted
+      increasing attention for operation in unstructured and confined
+      environments. To better adapt their bodies to tortuous paths,
+      extensible continuum robots introduce controllable axial deploy-
+      ment in addition to continuous bending. However, many existing
+      designs achieve extension by adding a separate insertion to a
+      conventional continuum robot, complicating mechanism design
+      and reducing motion dexterity. This article presents a rod-driven
+      extensible continuum robot with n segments and a bellows back-
+      bone, in which 3n absolute rod lengths jointly encode bending,
+      bending-plane direction, extension, and retraction. An extensible
+      piecewise constant curvature model is proposed, mapping these
+      inputs directly to the instantaneous robot configuration, while
+      experimentally identified length-dependent bending boundaries
+      characterize the feasible configuration space. Controllable exten-
+      sion increases the projected workspace by 59.8% and improves
+      local manipulability relative to a fixed-length counterpart. A uni-
+      fied online Jacobian adaptive incremental QP controller is further
+      developed for extension-aware tip tracking and follow-the-leader
+      motion. Experiments maintain relative spiral tracking errors
+      between 1.10% and 1.56% of the instantaneous robot length
+      at representative stages. Planar and spatial follow-the-leader
+      experiments further achieve normalized median tip and shape
+      deviations below 1.83% and 1.95%, respectively, demonstrating
+      accurate tip tracking and coordinated body path reproduction
     </p>
   </div>
 </section>
