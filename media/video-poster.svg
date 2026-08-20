@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#10231f"/>
+  <circle cx="640" cy="330" r="72" fill="#ffffff" opacity=".95"/>
+  <path d="M618 286 L690 330 L618 374 Z" fill="#0d725f"/>
+  <text x="640" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="38" font-weight="700" fill="#d8eee8">EXPERIMENT VIDEO</text>
+  <text x="640" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" fill="#9fc6bb">Add demo-XX.mp4 to the media folder</text>
+</svg>

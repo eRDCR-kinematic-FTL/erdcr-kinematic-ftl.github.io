@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100">
+  <rect width="900" height="1100" fill="#f3f8f6"/>
+  <rect x="38" y="38" width="824" height="1024" rx="28" fill="#ffffff" stroke="#d8e3df" stroke-width="3"/>
+  <g fill="none" stroke="#0d725f" stroke-width="10" stroke-linecap="round">
+    <path d="M235 760 C235 590 330 510 445 475 C560 440 640 330 650 205"/>
+    <path d="M285 790 C285 640 355 575 455 540 C570 500 700 410 715 255" opacity=".35"/>
+  </g>
+  <g fill="#0d725f">
+    <circle cx="235" cy="760" r="18"/>
+    <circle cx="445" cy="475" r="18"/>
+    <circle cx="650" cy="205" r="18"/>
+  </g>
+  <text x="450" y="895" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#12201d">PAPER SCHEMATIC</text>
+  <text x="450" y="950" text-anchor="middle" font-family="Arial, sans-serif" font-size="25" fill="#5b6b66">Replace this file with your final schematic</text>
+</svg>

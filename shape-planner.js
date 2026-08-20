@@ -10,6 +10,9 @@ const ui = {
   mode: document.getElementById('modeSelect'),
   reset: document.getElementById('resetBtn'),
   refine: document.getElementById('refineBtn'),
+  p1x: document.getElementById('p1x'),
+  p1y: document.getElementById('p1y'),
+  p1z: document.getElementById('p1z'),
   p2x: document.getElementById('p2x'),
   p2y: document.getElementById('p2y'),
   p2z: document.getElementById('p2z'),
@@ -32,7 +35,7 @@ const ui = {
 };
 
 const state = {
-  mode: 'J_lineArc',
+  mode: 'S_free3d',
   P0: new THREE.Vector3(),
   P1: new THREE.Vector3(),
   P2: new THREE.Vector3(),
@@ -61,8 +64,9 @@ const state = {
 
 const presets = {
   J_lineArc: {
-    P0: [0, 0, 0], T0: [0, 0, 1], P2: [0, 100, 160], T2: [0, 1, 0.1],
-    P1: [0, 0, 90], planeN: [0, 1, 0],
+    // Default J trajectory matched to the uploaded CSV: line to P1, then a 90 mm quarter-circle arc to P2.
+    P0: [0, 0, 0], T0: [0, 0, 1], P2: [0, 90, 190], T2: [0, 1, 0],
+    P1: [0, 0, 99.99999999], planeN: [1, 0, 0],
   },
   C_coplanar: {
     P0: [0, 0, 0], T0: [0, 0, 1], P2: [-100, -100, 160], T2: [-1.5, 0, 0.1],
@@ -111,14 +115,19 @@ grid.rotation.x = Math.PI / 2;
 scene.add(grid);
 scene.add(new THREE.AxesHelper(70));
 
-const line1 = makeLine(0xd5503f, 4);
-const line2 = makeLine(0x2e68c7, 4);
+// Main planned path: use true 3D tubes so thickness is consistent in WebGL.
+const PATH_SEG1_COLOR = 0xa7b7b1;
+const PATH_SEG2_COLOR = 0x6f8981;
+const PATH_RADIUS = 1.55;
+const line1 = makeTubeLine(PATH_SEG1_COLOR, PATH_RADIUS);
+const line2 = makeTubeLine(PATH_SEG2_COLOR, PATH_RADIUS);
 const fullPathLine = makeLine(0x6f8580, 1.5, 0.36);
 const bodyLine = makeLine(0x00a99d, 8);
 scene.add(fullPathLine, line1, line2, bodyLine);
+bodyLine.visible = false;
 
 const p0Mesh = makePoint(0x15211e, 6);
-const p1Mesh = makePoint(0x23a46f, 8);
+const p1Mesh = makePoint(0x23a46f, 5.2);
 const p2Mesh = makePoint(0xe28b27, 8);
 p1Mesh.userData.handle = 'P1';
 p2Mesh.userData.handle = 'P2';
@@ -137,6 +146,7 @@ const tipMesh = makePoint(0xffffff, 6);
 tipMesh.material.emissive = new THREE.Color(0x00a99d);
 tipMesh.material.emissiveIntensity = 0.75;
 scene.add(tipMesh);
+tipMesh.visible = false;
 
 const arrowT0 = new THREE.ArrowHelper(new THREE.Vector3(0,0,1), new THREE.Vector3(), 28, 0x9a2f2f, 7, 4);
 const arrowT1 = new THREE.ArrowHelper(new THREE.Vector3(0,0,1), new THREE.Vector3(), 28, 0xa13cc1, 7, 4);
@@ -466,6 +476,47 @@ function makeLine(color, width = 2, opacity = 1) {
   );
 }
 
+function makeTubeLine(color, radius = 1.55) {
+  const seedCurve = new THREE.LineCurve3(
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, 0.001),
+  );
+  const mesh = new THREE.Mesh(
+    new THREE.TubeGeometry(seedCurve, 2, radius, 10, false),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.38,
+      metalness: 0.02,
+      emissive: color,
+      emissiveIntensity: 0.025,
+    }),
+  );
+  mesh.userData.isTubeLine = true;
+  mesh.userData.radius = radius;
+  return mesh;
+}
+
+function updateTubeLine(mesh, points) {
+  mesh.geometry.dispose();
+  if (points.length < 2) {
+    mesh.visible = false;
+    return;
+  }
+  const curve = new THREE.CatmullRomCurve3(
+    points.map((point) => point.clone()),
+    false,
+    'centripetal',
+  );
+  mesh.geometry = new THREE.TubeGeometry(
+    curve,
+    Math.max(36, points.length * 2),
+    mesh.userData.radius,
+    12,
+    false,
+  );
+  mesh.visible = true;
+}
+
 function makePoint(color, radius) {
   return new THREE.Mesh(
     new THREE.SphereGeometry(radius, 24, 16),
@@ -474,6 +525,10 @@ function makePoint(color, radius) {
 }
 
 function updateLine(line, points) {
+  if (line.userData?.isTubeLine) {
+    updateTubeLine(line, points);
+    return;
+  }
   line.geometry.dispose();
   line.geometry = new THREE.BufferGeometry().setFromPoints(points.length ? points : [new THREE.Vector3(), new THREE.Vector3()]);
   line.visible = points.length > 1;
@@ -662,6 +717,9 @@ function applyPreset(mode, fit = true) {
 
 function syncUIFromState(syncAngles = true) {
   ui.mode.value = state.mode;
+  ui.p1x.value = fmt(state.P1.x, 1);
+  ui.p1y.value = fmt(state.P1.y, 1);
+  ui.p1z.value = fmt(state.P1.z, 1);
   ui.p2x.value = fmt(state.P2.x, 1);
   ui.p2y.value = fmt(state.P2.y, 1);
   ui.p2z.value = fmt(state.P2.z, 1);
@@ -690,6 +748,13 @@ function updateT2FromAngles() {
 ui.mode.addEventListener('change', () => applyPreset(ui.mode.value));
 ui.reset.addEventListener('click', () => applyPreset(state.mode));
 ui.refine.addEventListener('click', () => { solveP1(state.refineIters); syncUIFromState(); redraw(); });
+[ui.p1x, ui.p1y, ui.p1z].forEach((input) => input.addEventListener('change', () => {
+  state.P1.set(Number(ui.p1x.value), Number(ui.p1y.value), Number(ui.p1z.value));
+  applyP1Constraint();
+  solveP1(state.refineIters);
+  syncUIFromState();
+  redraw();
+}));
 [ui.p2x, ui.p2y, ui.p2z].forEach((input) => input.addEventListener('change', () => {
   state.P2.set(Number(ui.p2x.value), Number(ui.p2y.value), Number(ui.p2z.value));
   applyP2Constraint();

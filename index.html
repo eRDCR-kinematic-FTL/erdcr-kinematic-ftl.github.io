@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Interactive shape planning and follow-the-leader motion for a rod-driven extensible continuum robot." />
-  <meta property="og:title" content="Interactive Follow-the-Leader Shape Planning" />
-  <meta property="og:description" content="Browser-based 3D biarc and line-arc planner with FTL replay." />
+  <meta name="description" content="Project page for an extensible continuum robot with interactive shape planning and follow-the-leader simulation." />
+  <meta property="og:title" content="Extensible Continuum Robot · Follow-the-Leader Motion" />
+  <meta property="og:description" content="Paper overview, experiment videos, shape planning, and an interactive FTL simulator." />
   <title>A Kinematic Framework for Extensible Continuum Robots with Bellow Backbone and Follow-the-Leader Motion</title>
   <link rel="stylesheet" href="./styles.css" />
   <script type="importmap">
@@ -20,388 +20,259 @@
 <body>
   <header class="hero">
     <div class="hero-inner">
-      <p class="eyebrow">EXTENSIBLE CONTINUUM ROBOTICS · FOLLOW THE LEADER MOTION</p>
       <h1 class="serif-title">
-      A Kinematic Framework for<br>
-      Extensible Continuum Robots with Bellow Backbone and
-      Follow-the-Leader Motion
-    </h1>
-      <p class="subtitle">
+        A Kinematic Framework for<br>
+        Extensible Continuum Robots with Bellow Backbone and Follow-the-Leader Motion
+      </h1>
+      <!-- <p class="subtitle">
         <strong>Key Words:</strong> Continuum Robot, Extensible Robot, FTL Motion, Kinematic Frame, Incremental Controller.
-      </p>
+      </p> -->
       <div class="authors">
-        <span><a href="#">Xiu Yang</a></span>
         <span><a href="#">Co-author1</a></span>
         <span><a href="#">Co-author2</a></span>
         <span><a href="#">Co-author3</a></span>
-        <span><a href="https://samlai.me/" target="_blank" rel="noopener noreferrer">Jiewen Lai</a></span>
+        <span><a href="#">Co-author4</a></span>
+        <!-- <span><a href="https://samlai.me/" target="_blank" rel="noopener noreferrer">Jiewen Lai</a></span> -->
       </div>
-      <p class="affiliation">LabREN · The Chinese University of HongKong </p>
+      <!-- <p class="affiliation">LabREN · The Chinese University of Hong Kong</p> -->
       <nav class="project-links" aria-label="Project resources">
+        <a class="pill secondary" href="#experiments">Experiments</a>
         <a class="pill" href="#planner">Shape Planner</a>
-        <a class="pill secondary" href="#method">Method</a>
-        <a class="pill secondary" href="#ftl-simulation">FTL Simulator</a>
+        <a class="pill secondary" href="#ftl-simulation">FTL Simulation</a>
         <a class="pill secondary" href="#citation">BibTeX</a>
-        <a
-          class="pill secondary"
-          href="https://arxiv.org/abs/"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="View the paper"
-        >
-          Paper
-        </a>
-        <a
-          class="pill secondary"
-          href="https://github.com/yangyihe233/Extensible-Continuum-Robots-with-Bellow-Backbone-and-Follow-the-Leader-Motion"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="View the source code"
-        >
-          Code
-        </a>
- 
+        <a class="pill secondary" href="https://arxiv.org/abs/" target="_blank" rel="noopener noreferrer">Paper</a>
+        <a class="pill secondary" href="https://github.com/yangyihe233/extensible-continuum-robot.git">Code</a>
       </nav>
     </div>
   </header>
 
   <main>
-<section class="abstract-section">
-  <div class="abstract-wrap">
-    <h2 class="abstract-title">Abstract</h2>
+    <section class="abstract-section">
+      <div class="abstract-grid">
+        <article class="abstract-copy">
+          <h2 class="abstract-title">Abstract</h2>
+          <p class="abstract-body">
+            Extensible continuum robots introduce controllable length deployment in addition to bending. However, many existing designs achieve ``extension'' by adding a separate insertion mechanism to a conventional continuum robot, complicating mechanism design and reducing motion dexterity. This paper presents an extensible rod-driven continuum robot with n segments and a bellows backbone, in which 3n rod lengths jointly encode bending, bending direction, extension, and retraction. An extensible piecewise constant curvature (ePCC) model is proposed, mapping these joint inputs directly to the task space positions. Our theoretical analysis shows that controllable continuum robot extension significantly enlarges the workspace and enhances local manipulability compared with the fixed‑length counterpart. An online Jacobian adaptive controller is further developed for extension-aware tip tracking and follow-the-leader motion to maximize the advantages of extensible continuum robots. Extensive experimental results are presented to verify the kinematics and controller. This work establishes a feasible pathway for continuum robots to gain an additional geometric degree of freedom through controllable length variation, modeled and controlled by an augmented kinematic framework without extra actuators.
+          </p>
+        </article>
 
-    <p class="abstract-body">
-      Deployable and reconfigurable robots have attracted
-      increasing attention for operation in unstructured and confined
-      environments. To better adapt their bodies to tortuous paths,
-      extensible continuum robots introduce controllable axial deploy-
-      ment in addition to continuous bending. However, many existing
-      designs achieve extension by adding a separate insertion to a
-      conventional continuum robot, complicating mechanism design
-      and reducing motion dexterity. This article presents a rod-driven
-      extensible continuum robot with n segments and a bellows back-
-      bone, in which 3n absolute rod lengths jointly encode bending,
-      bending-plane direction, extension, and retraction. An extensible
-      piecewise constant curvature model is proposed, mapping these
-      inputs directly to the instantaneous robot configuration, while
-      experimentally identified length-dependent bending boundaries
-      characterize the feasible configuration space. Controllable exten-
-      sion increases the projected workspace by 59.8% and improves
-      local manipulability relative to a fixed-length counterpart. A uni-
-      fied online Jacobian adaptive incremental QP controller is further
-      developed for extension-aware tip tracking and follow-the-leader
-      motion. Experiments maintain relative spiral tracking errors
-      between 1.10% and 1.56% of the instantaneous robot length
-      at representative stages. Planar and spatial follow-the-leader
-      experiments further achieve normalized median tip and shape
-      deviations below 1.83% and 1.95%, respectively, demonstrating
-      accurate tip tracking and coordinated body path reproduction
-    </p>
-  </div>
-</section>
+        <figure class="schematic-card">
+          <img src="./media/schematic.png" alt="Paper schematic" />
+        </figure>
+      </div>
+    </section>
 
-<section id="planner" class="ftl-simulation-block">
- 
-  <div class="planner-demo-intro">
+    <section id="experiments" class="experiments-section">
+      <div class="section-narrow">
+        <div class="section-heading compact-heading">
+          <p class="kicker">EXPERIMENTS</p>
+          <h2>Experimental demos</h2>
+          <!-- <p>Representative hardware demonstrations from the paper.</p> -->
+        </div>
 
-    <div class="simulation-heading">
+        <div class="video-stack">
+          <div class="video-row video-row-1">
+            <figure class="demo-video-card">
+              <video controls playsinline preload="metadata" poster="./media/video-poster.svg">
+                <source src="./media/demo-01.mp4" type="video/mp4" />
+              </video>
+              <figcaption>Tip tracking：Sprial trajectory</figcaption></figure>
+            </figure>
+          </div>
 
-      <div class="simulation-heading-copy">
-        <p class="kicker">SIMULATION DEMO</p>
+          <div class="video-row video-row-4">
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-02.mp4" type="video/mp4" /></video><figcaption>Tip tracking："C" trajectoty</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-03.mp4" type="video/mp4" /></video><figcaption>Tip tracking："U" trajectory</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-04.mp4" type="video/mp4" /></video><figcaption>Tip tracking："H" trajectory</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-05.mp4" type="video/mp4" /></video><figcaption>Tip tracking："K" trajectory</figcaption></figure>
+          </div>
 
-        <h2 id="planner-title">
-          2D/3D Shape Planner + Shape Following Replay
-        </h2>
+          <div class="video-row video-row-3">
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-06.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: "J" shape</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-07.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 2D "C" shape</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-08.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 2D "S" shape</figcaption></figure>
+          </div>
 
-        <p>
-          Select a geometric mode, drag <strong>P1</strong> or <strong>P2</strong>,
-          adjust the terminal tangent, and refine the solution. Use the replay
-          controls to inspect the resulting shape-following behavior.
-        </p>
+          <!-- New two-video row inserted between the original third and fourth rows. -->
+          <div class="video-row video-row-2">
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-09.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 3D "C" shape</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-10.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 3D "S" shape</figcaption></figure>
+          </div>
+
+          <div class="video-row video-row-3">
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-11.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: "J" shape</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-12.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 2D "C" shape</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-13.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 2D "S" shape</figcaption></figure>
+          </div>
+
+          <div class="video-row video-row-2">
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-14.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 3D "C" shape</figcaption></figure>
+            <figure class="demo-video-card"><video controls playsinline preload="metadata" poster="./media/video-poster.svg"><source src="./media/demo-15.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 3D "S" shape</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="planner" class="interactive-section">
+      <div class="interactive-heading">
+        <p class="kicker">INTERACTIVE DEMO</p>
+        <h2>Shape Planner</h2>
       </div>
 
-      <div class="simulation-path-chip">
-        <span>Available modes</span>
-        <strong>J · C · S shapes</strong>
-        <small>Line arc · coplanar · free 3D</small>
-      </div>
+      <div class="planner-grid simple-grid planner-controls-grid">
+        <aside class="interaction-card planner-control-card" aria-label="Shape planning controls">
+          <p class="interaction-label">INTERACTION</p>
 
-    </div>
-
-  </div>
-
-      <div class="planner-grid">
-        <aside class="control-panel" aria-label="Shape planner controls">
-          <div class="control-group">
-            <label for="modeSelect">Planning mode</label>
+          <div class="planner-control-group">
+            <label for="modeSelect">Trajectory</label>
             <select id="modeSelect">
-              <option value="J_lineArc">J · vertical line + tangent arc</option>
-              <option value="C_coplanar">C · coplanar tangent arcs</option>
-              <option value="C_free3d">C · non-coplanar tangent arcs</option>
-              <option value="S_coplanar">S · coplanar tangent arcs</option>
-              <option value="S_free3d">S · non-coplanar tangent arcs</option>
+              <option value="J_lineArc">J</option>
+              <option value="C_coplanar">2D-C</option>
+              <option value="S_coplanar">2D-S</option>
+              <option value="C_free3d">3D-C</option>
+              <option value="S_free3d" selected>3D-S</option>
             </select>
+            <p class="control-hint">J: line–arc · C/S: coplanar or spatial biarc.</p>
           </div>
 
-          <div class="button-row">
-            <button id="resetBtn" type="button">Reset preset</button>
-            <button id="refineBtn" class="primary" type="button">Refine shape</button>
-          </div>
+          <fieldset class="planner-fieldset">
+            <legend>Segment-length bounds (mm)</legend>
+            <div class="double-input compact-inputs">
+              <label>Minimum<input id="sminInput" type="number" min="1" step="1" value="45" /></label>
+              <label>Maximum<input id="smaxInput" type="number" min="2" step="1" value="150" /></label>
+            </div>
+          </fieldset>
 
-          <fieldset>
+          <fieldset class="planner-fieldset">
+            <legend>Transition point P1 (mm)</legend>
+            <div class="triple-input compact-inputs">
+              <label>X<input id="p1x" type="number" step="1" /></label>
+              <label>Y<input id="p1y" type="number" step="1" /></label>
+              <label>Z<input id="p1z" type="number" step="1" /></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="planner-fieldset">
             <legend>End point P2 (mm)</legend>
-            <div class="triple-input">
+            <div class="triple-input compact-inputs">
               <label>X<input id="p2x" type="number" step="1" /></label>
               <label>Y<input id="p2y" type="number" step="1" /></label>
               <label>Z<input id="p2z" type="number" step="1" /></label>
             </div>
           </fieldset>
 
-          <fieldset>
-            <legend>Terminal tangent T2</legend>
-            <label for="yawRange">Yaw <output id="yawOut"></output></label>
-            <input id="yawRange" type="range" min="-180" max="180" step="1" />
-            <label for="pitchRange">Pitch <output id="pitchOut"></output></label>
-            <input id="pitchRange" type="range" min="-80" max="80" step="1" />
-          </fieldset>
-
-          <fieldset>
-            <legend>Arc-length constraints (mm)</legend>
-            <div class="double-input">
-              <label>Minimum<input id="sminInput" type="number" min="1" step="1" /></label>
-              <label>Maximum<input id="smaxInput" type="number" min="2" step="1" /></label>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Interaction</legend>
-            <label class="check-row"><input id="autoRefine" type="checkbox" checked /> Refine after dragging</label>
-            <label class="check-row"><input id="showGeometry" type="checkbox" checked /> Show tangents and centers</label>
-            <p class="hint">Click the green P1 or orange P2 sphere to attach the translation gizmo.</p>
-          </fieldset>
-
-          <fieldset>
-            <legend>Shape following replay</legend>
-            <label for="bodyLength">Robot body length (mm)</label>
-            <input id="bodyLength" type="number" min="10" step="5" value="140" />
-            <label for="progressRange">Leader progress <output id="progressOut">100%</output></label>
-            <input id="progressRange" type="range" min="0" max="1000" value="1000" />
-            <div class="button-row">
-              <button id="playBtn" type="button">Play FTL</button>
-              <button id="restartBtn" type="button">Restart</button>
-            </div>
-          </fieldset>
-
-          <div class="button-row stack-mobile">
-            <button id="csvBtn" type="button">Export CSV</button>
-            <button id="pngBtn" type="button">Save view</button>
+          <div class="button-row planner-button-row">
+            <button id="resetBtn" type="button">Reset preset</button>
+            <button id="refineBtn" class="primary" type="button">Refine shape</button>
           </div>
 
-          <div id="statusBox" class="status-box" aria-live="polite"></div>
+          <p class="interaction-note"><strong>Direct edit:</strong> click the green P1 or orange P2 sphere and drag the arrows. Left-drag rotates the view; right-drag pans; the wheel zooms.</p>
         </aside>
 
-        <div class="viewport-card">
+        <div class="viewport-card simple-viewport-card">
           <div id="viewport" aria-label="Interactive 3D shape planning viewport"></div>
-          <div class="viewport-help">
-            <span><b>Rotate:</b> left drag</span>
-            <span><b>Pan:</b> right drag</span>
-            <span><b>Zoom:</b> wheel</span>
-            <span><b>Edit:</b> select P1/P2</span>
-          </div>
-          <div class="legend">
-            <span><i class="swatch arc-one"></i>Primitive 1</span>
-            <span><i class="swatch arc-two"></i>Primitive 2</span>
-            <span><i class="swatch body"></i>Current robot body</span>
-          </div>
         </div>
+      </div>
+
+      <div class="legacy-ui" aria-hidden="true">
+        <pre id="statusBox" aria-live="polite"></pre>
+        <input id="yawRange" type="range" min="-180" max="180" step="1" /><output id="yawOut"></output>
+        <input id="pitchRange" type="range" min="-80" max="80" step="1" /><output id="pitchOut"></output>
+        <input id="autoRefine" type="checkbox" checked /><input id="showGeometry" type="checkbox" />
+        <input id="bodyLength" type="number" value="140" /><input id="progressRange" type="range" min="0" max="1000" value="1000" /><output id="progressOut">100%</output>
+        <button id="playBtn" type="button">Play FTL</button><button id="restartBtn" type="button">Restart</button>
+        <button id="csvBtn" type="button">CSV</button><button id="pngBtn" type="button">PNG</button>
       </div>
     </section>
 
-    <section id="method" class="content-section section-narrow">
-      <div class="section-heading">
-        <p class="kicker">METHOD</p>
-        <h2>From shape planning to follow-the-leader motion</h2>
-      </div>
-      <div class="workflow-grid">
-        <article>
-          <span class="step">01</span>
-          <h3>Boundary specification</h3>
-          <p>Specify the base pose, target endpoint, terminal tangent, geometric mode, and feasible primitive lengths.</p>
-        </article>
-        <article>
-          <span class="step">02</span>
-          <h3>Transition-point optimization</h3>
-          <p>Optimize P1 to enforce tangent continuity and penalize primitive lengths outside the allowable interval.</p>
-        </article>
-        <article>
-          <span class="step">03</span>
-          <h3>Reference-backbone generation</h3>
-          <p>Sample the line–arc or biarc geometry to obtain an ordered spatial path for inverse kinematics and control.</p>
-        </article>
-        <article>
-          <span class="step">04</span>
-          <h3>FTL path assignment</h3>
-          <p>Advance the leader along the planned path and assign earlier path positions to successive backbone arc-length coordinates.</p>
-        </article>
+    <section id="ftl-simulation" class="interactive-section ftl-section">
+      <div class="interactive-heading">
+        <p class="kicker">INTERACTIVE DEMO</p>
+        <h2>Follow-the-Leader Simulation</h2>
       </div>
 
-      
-      <div id="ftl-simulation" class="ftl-simulation-block">
-        <div class="simulation-heading">
-          <div>
-            <p class="kicker">SIMULATION DEMO</p>
-            <h2>Three-stage follow-the-leader motion</h2>
-            <p>
-              The simulator takes the current line arc or biarc path from the planner above, solves a
-              sequence of bounded rod-length inverse-kinematics problems, and replays the resulting
-              two-segment continuum-robot motion directly in the browser.
-            </p>
+      <div class="simulation-grid simple-grid ftl-controls-grid">
+        <aside class="simulation-controls compact-ftl-controls" aria-label="Follow-the-leader simulation controls">
+          <p class="interaction-label">INTERACTION</p>
+
+          <div class="sim-section-number">Reference path</div>
+          <p class="sim-note">Changes made in Shape Planning are synchronized automatically. Use Sync to refit the view to the latest path.</p>
+          <button id="simSyncBtn" type="button">Sync current shape</button>
+
+          <div class="sim-section-number">Rod-length planner</div>
+          <label for="simWaypointCount">Waypoints <output id="simWaypointOut">120</output></label>
+          <input id="simWaypointCount" type="range" min="14" max="120" step="2" value="120" />
+
+          <label for="simIterations">Iterations per waypoint <output id="simIterationsOut">36</output></label>
+          <input id="simIterations" type="range" min="6" max="36" step="1" value="36" />
+
+          <div class="double-input sim-double-input">
+            <label>Rod lower bound (mm)<input id="simLowerBound" type="number" min="1" step="1" value="45" /></label>
+            <label>Rod upper bound (mm)<input id="simUpperBound" type="number" min="2" step="1" value="150" /></label>
           </div>
-          <div class="simulation-path-chip" aria-live="polite">
-            <span>Current reference</span>
-            <strong id="simPathName">Waiting for planner…</strong>
-            <small id="simPathMeta">—</small>
+          <label>Maximum rod change per step (mm)<input id="simDelta" type="number" min="0.5" step="0.5" value="8" /></label>
+
+          <label class="check-row"><input id="simNearestStart" type="checkbox" checked /> Start from the nearest reachable arc-1 waypoint</label>
+          <label class="check-row"><input id="simShowFrames" type="checkbox" checked /> Show base, middle, and tip frames</label>
+          <label class="check-row"><input id="simShowProjections" type="checkbox" /> Show side projections</label>
+
+          <div class="button-row ftl-button-row">
+            <button id="simResetBtn" type="button">Reset</button>
+            <button id="simRunBtn" class="primary" type="button">Run simulation</button>
           </div>
+        </aside>
+
+        <div class="simulation-viewer-card simple-simulation-viewer">
+          <div id="simulationViewport" aria-label="Three-dimensional follow-the-leader robot simulation"></div>
         </div>
+      </div>
 
-        <div class="simulation-steps">
-          <article>
-            <span class="step">1</span>
-            <div><strong>Stage 1</strong><p>Optimize all six rods so the full robot tip p<sub>02</sub> follows arc 1 toward P1.</p></div>
-          </article>
-          <article>
-            <span class="step">2</span>
-            <div><strong>Stage 2</strong><p>Track the remaining arc 1 with p<sub>01</sub> while p<sub>02</sub> advances along arc 2.</p></div>
-          </article>
-          <article>
-            <span class="step">3</span>
-            <div><strong>Stage 3</strong><p>Hold L1–L3 fixed and optimize L4–L6 until p<sub>02</sub> reaches P2.</p></div>
-          </article>
+      <div class="rod-output-row" aria-label="Current rod lengths">
+        <div class="rod-output-label">
+          <span>LIVE OUTPUT</span>
+          <strong>Current rod lengths</strong>
         </div>
-
-        <div class="simulation-grid">
-          <aside class="simulation-controls" aria-label="Follow-the-leader simulation controls">
-            <div class="sim-section-number">1. Reference path</div>
-            <p class="sim-note">Edits made in the shape planner are synchronized here automatically and clear the previous motion plan.</p>
-            <button id="simSyncBtn" type="button">Sync current shape</button>
-
-            <div class="sim-section-number">2. Rod-length planner</div>
-            <label for="simWaypointCount">Waypoints <output id="simWaypointOut">32</output></label>
-            <input id="simWaypointCount" type="range" min="14" max="60" step="2" value="32" />
-
-            <label for="simIterations">Iterations per waypoint <output id="simIterationsOut">18</output></label>
-            <input id="simIterations" type="range" min="6" max="36" step="1" value="18" />
-
-            <div class="double-input">
-              <label>Rod lower bound (mm)<input id="simLowerBound" type="number" min="1" step="1" value="45" /></label>
-              <label>Rod upper bound (mm)<input id="simUpperBound" type="number" min="2" step="1" value="150" /></label>
-            </div>
-            <label>Maximum rod change per step (mm)<input id="simDelta" type="number" min="0.5" step="0.5" value="8" /></label>
-
-            <label class="check-row"><input id="simNearestStart" type="checkbox" checked /> Start from the nearest reachable arc-1 waypoint</label>
-            <label class="check-row"><input id="simShowFrames" type="checkbox" checked /> Show base, middle, and tip frames</label>
-            <label class="check-row"><input id="simShowProjections" type="checkbox" /> Show side projections</label>
-
-            <div class="button-row">
-              <button id="simResetBtn" type="button">Reset</button>
-              <button id="simRunBtn" class="primary" type="button">Run simulation</button>
-            </div>
-            <div id="simStatus" class="sim-status" aria-live="polite">Ready. Run the planner to generate a rod-length motion plan.</div>
-
-            <div class="sim-section-number">3. Playback</div>
-            <label for="simFrameRange">Motion frame <output id="simFrameOut">— / —</output></label>
-            <input id="simFrameRange" type="range" min="0" max="0" value="0" disabled />
-            <label for="simSpeed">Playback speed <output id="simSpeedOut">0.75×</output></label>
-            <input id="simSpeed" type="range" min="0.25" max="2" step="0.25" value="0.75" />
-            <div class="button-row">
-              <button id="simPlayBtn" type="button" disabled>Play</button>
-              <button id="simExportBtn" type="button" disabled>Export L plan</button>
-            </div>
-          </aside>
-
-          <div class="simulation-viewer-card">
-            <div id="simulationViewport" aria-label="Three-dimensional follow-the-leader robot simulation"></div>
-            <div class="simulation-overlay simulation-legend">
-              <span><i class="swatch target-one"></i>Reference arc 1</span>
-              <span><i class="swatch target-two"></i>Reference arc 2</span>
-              <span><i class="swatch robot-one"></i>Robot segment 1</span>
-              <span><i class="swatch robot-two"></i>Robot segment 2</span>
-            </div>
-            <div class="simulation-overlay simulation-stage">
-              <span id="simStageBadge">IDLE</span>
-              <strong id="simFrameTitle">No motion plan</strong>
-            </div>
-            <div class="simulation-view-help">Drag to orbit · scroll to zoom · right-drag to pan</div>
-          </div>
+        <div class="rod-values-visible">
+          <output id="rodL1">L1 —</output>
+          <output id="rodL2">L2 —</output>
+          <output id="rodL3">L3 —</output>
+          <output id="rodL4">L4 —</output>
+          <output id="rodL5">L5 —</output>
+          <output id="rodL6">L6 —</output>
         </div>
+      </div>
 
-        <div class="sim-results" aria-label="Simulation results">
-          <article><span>Tip deviation</span><strong id="simTipMetric">—</strong><small>mean / max</small></article>
-          <article><span>Shape deviation</span><strong id="simShapeMetric">—</strong><small>mean / max</small></article>
-          <article><span>Planning time</span><strong id="simTimeMetric">—</strong><small>browser runtime</small></article>
-          <article><span>Frames produced</span><strong id="simFramesMetric">—</strong><small>three stages</small></article>
-        </div>
-
-        <div class="rod-readout" aria-label="Current rod lengths">
-          <span>Current rod lengths</span>
-          <div class="rod-values">
-            <output id="rodL1">L1 —</output><output id="rodL2">L2 —</output><output id="rodL3">L3 —</output>
-            <output id="rodL4">L4 —</output><output id="rodL5">L5 —</output><output id="rodL6">L6 —</output>
-          </div>
-        </div>
-
-        <p class="simulation-disclaimer">
-          This interactive module is a browser-side numerical reproduction of the two-segment constant-curvature
-          forward model and the three-stage rod-length planning strategy. It is intended for method visualization;
-          hardware dynamics, collision constraints, and closed-loop sensing are not modeled.
-        </p>
+      <!-- Playback/replay controls and secondary metrics remain available to the JS,
+           but are intentionally hidden from the public page. -->
+      <div class="legacy-ui" aria-hidden="true">
+        <div id="simStatus" aria-live="polite">Ready. Run the planner to generate a rod-length motion plan.</div>
+        <button id="simpleFtlRunBtn" type="button">Run / Replay FTL</button><span id="simpleFtlStatus">Ready.</span>
+        <strong id="simPathName">Waiting for planner…</strong><small id="simPathMeta">—</small>
+        <input id="simFrameRange" type="range" min="0" max="0" value="0" disabled /><output id="simFrameOut">— / —</output>
+        <input id="simSpeed" type="range" min="0.25" max="2" step="0.25" value="1" /><output id="simSpeedOut">1×</output>
+        <button id="simPlayBtn" type="button" disabled>Play</button><button id="simExportBtn" type="button" disabled>Export</button>
+        <span id="simStageBadge">IDLE</span><strong id="simFrameTitle">No motion plan</strong>
+        <strong id="simTipMetric">—</strong><strong id="simShapeMetric">—</strong><strong id="simTimeMetric">—</strong><strong id="simFramesMetric">—</strong>
       </div>
     </section>
 
-    <section class="content-section muted-section">
-      <div class="section-narrow">
-        <div class="section-heading">
-          <p class="kicker">PAPER STRUCTURE</p>
-          <h2>Contribution</h2>
-          <p>To address these limitations, this paper proposes a rod-driven extensible continuum robot(RDECR) with a bellows backbone. 
-            In the proposed design, the rods serve as the active driving elements, while the bellows backbone provides structural support and geometric constraint. 
-            Without requiring additional insertion modules or segment-level extension actuators, the robot achieves bending, extension, 
-            and retraction through coordinated absolute control of rod lengths.</p>
-        </div>
-        <div class="cards-three">
-          <article>
-            <h3>Robot design</h3>
-            <p>Add a mechanism overview, bellows backbone, rod arrangement, extension range, and actuation schematic.</p>
-          </article>
-          <article>
-            <h3>Control framework</h3>
-            <p>Add the mapping from the planned backbone to rod-length commands, state estimation, and closed-loop control.</p>
-          </article>
-          <article>
-            <h3>Experiments</h3>
-            <p>Add planar and spatial FTL videos, constrained environment navigation, shape error, and tip tracking metrics.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="citation" class="content-section section-narrow">
+    <section id="citation" class="content-section section-narrow citation-section">
       <div class="section-heading">
         <p class="kicker">CITATION</p>
         <h2>BibTeX</h2>
       </div>
       <pre class="bibtex"><code>@article{yourname2026follow,
   title   = {A Kinematic Framework for Extensible Continuum Robots with Bellow Backbone and Follow-the-Leader Motion},
-  author  = {Xiu Yang, xxx, xxx, and Jiewen Lai},
+  author  = {xxx, xxx, xxx, and xxx},
   journal = {Manuscript under review},
   year    = {2026}
 }</code></pre>
     </section>
   </main>
 
-<footer>
-  <p>Source on <a href="https://github.com/yangyihe233/Extensible-Continuum-Robots-with-Bellow-Backbone-and-Follow-the-Leader-Motion" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
-</footer>
+  <footer>
+    <p>Source on <a href="https://github.com/yangyihe233/Extensible-Continuum-Robots-with-Bellow-Backbone-and-Follow-the-Leader-Motion" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+  </footer>
 
   <script type="module" src="./shape-planner.js"></script>
   <script type="module" src="./ftl-simulation.js"></script>

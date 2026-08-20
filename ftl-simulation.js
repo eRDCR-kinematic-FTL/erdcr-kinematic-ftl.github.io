@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const EPS = 1e-9;
 const D = 11;
 const viewport = document.getElementById('simulationViewport');
+const simpleRunButton = document.getElementById('simpleFtlRunBtn');
+const simpleStatus = document.getElementById('simpleFtlStatus');
 
 const ui = {
   pathName: document.getElementById('simPathName'),
@@ -80,10 +82,16 @@ const grid = new THREE.GridHelper(520, 20, 0x34534b, 0x1b302b);
 grid.rotation.x = Math.PI / 2;
 scene.add(grid);
 
-const targetArc1 = makeLine(0xa7b7b1, 2, 0.72);
-const targetArc2 = makeLine(0x6f8981, 2, 0.82);
-const robotSeg1 = makeTube(0x3f8ed0, 4.8);
-const robotSeg2 = makeTube(0xbd3e52, 4.8);
+// Restore the original muted FTL reference-path colors while keeping the thicker path geometry.
+const PATH_SEG1_COLOR = 0xa7b7b1;
+const PATH_SEG2_COLOR = 0x6f8981;
+const PATH_RADIUS = 1.55;
+const targetArc1 = makeTube(PATH_SEG1_COLOR, PATH_RADIUS, true);
+const targetArc2 = makeTube(PATH_SEG2_COLOR, PATH_RADIUS, true);
+
+// Colored simulated robot body, intentionally slimmer than before.
+const robotSeg1 = makeTube(0x3f8ed0, 2.35);
+const robotSeg2 = makeTube(0xbd3e52, 2.35);
 const projectionLines = [
   makeLine(0xa9b8b3, 2, 0.30),
   makeLine(0xa9b8b3, 2, 0.30),
@@ -99,11 +107,13 @@ const currentMid = makePoint(0x5aa0dd, 5.2);
 const currentTip = makePoint(0xe55368, 6.0);
 const targetMid = makePoint(0x74dfb6, 4.5);
 const targetTip = makePoint(0xffc26b, 4.5);
-scene.add(basePoint, transitionPoint, endpoint, currentMid, currentTip, targetMid, targetTip);
+// Keep the three structural point markers (P0, P1, P2) visible.
+// Transient target/current tracking spheres remain hidden to keep the view clean.
+scene.add(basePoint, transitionPoint, endpoint);
 
-const baseFrame = new THREE.AxesHelper(18);
-const middleFrame = new THREE.AxesHelper(18);
-const tipFrame = new THREE.AxesHelper(18);
+const baseFrame = makeThickFrame(20, 0.82);
+const middleFrame = makeThickFrame(20, 0.82);
+const tipFrame = makeThickFrame(20, 0.82);
 scene.add(baseFrame, middleFrame, tipFrame);
 
 // ---------- Path synchronization ----------
@@ -134,6 +144,7 @@ function setPath(pathData, fit = true) {
   ui.pathName.textContent = humanMode(sim.path.mode);
   ui.pathMeta.textContent = `${sim.path.all.length} samples · ${format(polylineLength(sim.path.all), 1)} mm`;
   clearPlan('Reference path synchronized. Run the three-stage planner to generate robot motion.');
+  if (simpleStatus) simpleStatus.textContent = 'Path synchronized — click Run / Replay FTL.';
   showInitialRobot();
   if (fit) fitCamera();
 }
@@ -331,8 +342,8 @@ async function runSimulation() {
   const lowerValue = Math.max(1, Number(ui.lower.value) || 45);
   const upperValue = Math.max(lowerValue + 1, Number(ui.upper.value) || 200);
   const delta = Math.max(0.5, Number(ui.delta.value) || 8);
-  const maxIterations = Math.max(1, Number(ui.iterations.value) || 18);
-  const waypointCount = Math.max(14, Number(ui.waypointCount.value) || 32);
+  const maxIterations = Math.max(1, Number(ui.iterations.value) || 36);
+  const waypointCount = Math.max(14, Number(ui.waypointCount.value) || 120);
   const generation = sim.generation;
 
   ui.lower.value = lowerValue;
@@ -340,6 +351,8 @@ async function runSimulation() {
   ui.delta.value = delta;
   sim.busy = true;
   sim.playing = false;
+  if (simpleRunButton) simpleRunButton.disabled = true;
+  if (simpleStatus) simpleStatus.textContent = 'Planning the FTL motion…';
   ui.run.disabled = true;
   ui.play.disabled = true;
   ui.export.disabled = true;
@@ -436,11 +449,18 @@ async function runSimulation() {
       `Frames: ${frames.length}`,
       `Planning time: ${format(elapsed / 1000, 2)} s`,
     ].join('\n');
+    sim.currentFrame = 0;
+    sim.playing = true;
+    sim.lastTime = performance.now();
+    ui.play.textContent = 'Pause';
+    if (simpleStatus) simpleStatus.textContent = 'Playing FTL motion.';
   } catch (error) {
     ui.status.textContent = `Planning stopped: ${error.message}`;
+    if (simpleStatus) simpleStatus.textContent = `Planning stopped: ${error.message}`;
     clearPlan(ui.status.textContent);
   } finally {
     sim.busy = false;
+    if (simpleRunButton) simpleRunButton.disabled = false;
     ui.run.disabled = false;
     ui.run.textContent = 'Run simulation';
   }
@@ -596,6 +616,7 @@ function updatePlayback(now) {
     sim.currentFrame = sim.frames.length - 1;
     sim.playing = false;
     ui.play.textContent = 'Play';
+    if (simpleStatus) simpleStatus.textContent = 'Replay complete — click Run / Replay FTL to watch again.';
   } else {
     sim.currentFrame = next;
   }
@@ -643,7 +664,7 @@ function makeLine(color, width = 2, opacity = 1) {
 
 // WebGL commonly ignores LineBasicMaterial.linewidth. Use a true 3D tube for
 // the robot body so segment thickness is consistent across browsers.
-function makeTube(color, radius = 4.8) {
+function makeTube(color, radius = 4.8, isReferencePath = false) {
   const seedCurve = new THREE.LineCurve3(
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(0, 0, 0.001),
@@ -652,15 +673,59 @@ function makeTube(color, radius = 4.8) {
     new THREE.TubeGeometry(seedCurve, 2, radius, 12, false),
     new THREE.MeshStandardMaterial({
       color,
-      roughness: 0.34,
-      metalness: 0.05,
+      roughness: isReferencePath ? 0.38 : 0.34,
+      metalness: isReferencePath ? 0.02 : 0.05,
       emissive: color,
-      emissiveIntensity: 0.08,
+      emissiveIntensity: isReferencePath ? 0.025 : 0.08,
     }),
   );
   mesh.userData.isRobotTube = true;
+  mesh.userData.isReferencePath = isReferencePath;
   mesh.userData.radius = radius;
   return mesh;
+}
+
+function makeThickFrame(length = 20, shaftRadius = 0.82) {
+  const group = new THREE.Group();
+  const headLength = 4.0;
+  const shaftLength = Math.max(1, length - headLength);
+  const headRadius = shaftRadius * 2.15;
+
+  const axes = [
+    { color: 0xe53935, axis: 'x' },
+    { color: 0x27ae60, axis: 'y' },
+    { color: 0x2457ff, axis: 'z' },
+  ];
+
+  for (const { color, axis } of axes) {
+    const material = new THREE.MeshBasicMaterial({ color });
+    const shaft = new THREE.Mesh(
+      new THREE.CylinderGeometry(shaftRadius, shaftRadius, shaftLength, 10),
+      material,
+    );
+    const head = new THREE.Mesh(
+      new THREE.ConeGeometry(headRadius, headLength, 12),
+      material,
+    );
+
+    if (axis === 'x') {
+      shaft.rotation.z = -Math.PI / 2;
+      head.rotation.z = -Math.PI / 2;
+      shaft.position.x = shaftLength / 2;
+      head.position.x = shaftLength + headLength / 2;
+    } else if (axis === 'y') {
+      shaft.position.y = shaftLength / 2;
+      head.position.y = shaftLength + headLength / 2;
+    } else {
+      shaft.rotation.x = Math.PI / 2;
+      head.rotation.x = Math.PI / 2;
+      shaft.position.z = shaftLength / 2;
+      head.position.z = shaftLength + headLength / 2;
+    }
+
+    group.add(shaft, head);
+  }
+  return group;
 }
 
 function makePoint(color, radius) {
@@ -853,6 +918,23 @@ function dot(a, b) { return a.reduce((sum, value, index) => sum + value * b[inde
 function norm(values) { return Math.sqrt(dot(values, values)); }
 function mean(values) { return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0; }
 function format(value, digits = 2) { return Number.isFinite(value) ? Number(value).toFixed(digits) : '—'; }
+
+
+async function runOrReplaySimple() {
+  if (sim.busy) return;
+  if (sim.frames.length) {
+    sim.currentFrame = 0;
+    renderFrame(sim.frames[0], 0, true);
+    sim.playing = true;
+    sim.lastTime = performance.now();
+    ui.play.textContent = 'Pause';
+    if (simpleStatus) simpleStatus.textContent = 'Replaying FTL motion.';
+    return;
+  }
+  await runSimulation();
+}
+
+if (simpleRunButton) simpleRunButton.addEventListener('click', runOrReplaySimple);
 
 // ---------- UI ----------
 ui.sync.addEventListener('click', () => syncFromPlanner(true));
