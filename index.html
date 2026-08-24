@@ -317,6 +317,18 @@
     });
   </script>
 
+  <script>
+  const heroVideo = document.querySelector('.hero-background-video');
+
+  if (heroVideo) {
+    heroVideo.playbackRate = 2.0;
+
+    heroVideo.addEventListener('loadedmetadata', () => {
+      heroVideo.playbackRate = 2.0;
+    });
+  }
+  </script>
+
   <script type="module" src="./shape-planner.js"></script>
   <script type="module" src="./ftl-simulation.js"></script>
 </body>
