@@ -863,3 +863,201 @@ footer {
 @media (max-width: 640px) {
   .ftl-controls-grid .simulation-viewer-card { min-height: 520px; }
 }
+
+/* =========================================================
+   Experimental demos redesign
+   APPEND this entire block to the END of styles.css.
+   It only targets the new exp-* classes.
+   ========================================================= */
+
+.exp-demo-family {
+  margin-top: 34px;
+}
+
+.exp-demo-family + .exp-demo-family {
+  margin-top: 54px;
+}
+
+.exp-demo-family-title {
+  margin: 0 0 16px;
+  color: #77837f;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-transform: lowercase;
+}
+
+.exp-demo-subgroup {
+  margin-top: 18px;
+}
+
+.exp-demo-subgroup-closed {
+  margin-top: 38px;
+}
+
+.exp-demo-subtitle {
+  margin: 0 0 13px;
+  color: #8b9692;
+  font-size: clamp(.94rem, 1.3vw, 1.08rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  text-transform: lowercase;
+}
+
+.exp-demo-viewer {
+  width: 100%;
+}
+
+.exp-main-player {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #000;
+  box-shadow: 0 9px 26px rgba(18, 32, 29, .075);
+}
+
+.exp-main-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+}
+
+/* Small speed selector over the lower-right corner of the player. */
+.exp-speed-control {
+  position: absolute;
+  right: 14px;
+  bottom: 48px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px 6px 10px;
+  border: 1px solid rgba(255, 255, 255, .26);
+  border-radius: 9px;
+  background: rgba(8, 18, 16, .74);
+  color: #f2f8f6;
+  font-size: .72rem;
+  font-weight: 750;
+  line-height: 1;
+  backdrop-filter: blur(7px);
+}
+
+.exp-speed-control span {
+  opacity: .8;
+}
+
+.exp-speed-select {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.exp-speed-select option {
+  background: #12201d;
+  color: #fff;
+}
+
+/* Thumbnail/config row, inspired by the reference layout. */
+.exp-config-strip {
+  display: grid;
+  gap: 14px;
+  margin: 14px auto 0;
+}
+
+.exp-config-strip-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 620px;
+}
+
+.exp-config-strip-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 900px;
+}
+
+.exp-config-card {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #d4ddda;
+  border-radius: 10px;
+  background: #fff;
+  color: #5f6d68;
+  text-align: left;
+  box-shadow: none;
+  cursor: pointer;
+  transition:
+    border-color .16s ease,
+    box-shadow .16s ease,
+    transform .16s ease,
+    background .16s ease;
+}
+
+.exp-config-card:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  border-color: #a8bbb5;
+  box-shadow: 0 6px 18px rgba(18, 32, 29, .07);
+}
+
+.exp-config-card.is-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(13, 114, 95, .13);
+}
+
+.exp-config-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #000;
+  pointer-events: none;
+}
+
+.exp-config-card > span {
+  display: block;
+  padding: 9px 12px 10px;
+  color: #66736f;
+  font-size: .82rem;
+  font-weight: 760;
+  line-height: 1.25;
+}
+
+.exp-config-card.is-active > span {
+  color: var(--accent-dark);
+}
+
+@media (max-width: 760px) {
+  .exp-config-strip-2,
+  .exp-config-strip-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: none;
+  }
+
+  .exp-speed-control {
+    right: 8px;
+    bottom: 44px;
+  }
+}
+
+@media (max-width: 520px) {
+  .exp-config-strip-2,
+  .exp-config-strip-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .exp-demo-family + .exp-demo-family {
+    margin-top: 42px;
+  }
+}
+

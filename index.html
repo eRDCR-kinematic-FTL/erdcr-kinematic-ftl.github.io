@@ -80,56 +80,214 @@
       </div>
     </section>
 
+<!-- =========================================================
+     REPLACE ONLY the current <section id="experiments">...</section>
+     with this block. Everything else in index.html stays unchanged.
+     ========================================================= -->
     <section id="experiments" class="experiments-section">
       <div class="section-narrow">
         <div class="section-heading compact-heading">
           <p class="kicker">EXPERIMENTS</p>
           <h2>Experimental demos</h2>
-          <!-- <p>Representative hardware demonstrations from the paper.</p> -->
         </div>
 
-        <div class="video-stack">
-          <div class="video-row video-row-1">
-            <figure class="demo-video-card">
-              <video controls playsinline preload="auto">
+        <!-- ==================== TIP TRACKING ==================== -->
+        <section class="exp-demo-family" aria-labelledby="tip-tracking-title">
+          <h3 id="tip-tracking-title" class="exp-demo-family-title">Tip tracking</h3>
+
+          <div class="exp-demo-viewer" data-demo-group>
+            <div class="exp-main-player">
+              <video
+                class="exp-main-video"
+                controls
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
+              >
                 <source src="./media/demo-01.mp4" type="video/mp4" />
               </video>
-              <figcaption>Tip tracking：Sprial trajectory</figcaption></figure>
-            </figure>
+
+              <label class="exp-speed-control">
+                <span>Speed</span>
+                <select class="exp-speed-select" aria-label="Tip tracking playback speed">
+                  <option value="0.5">0.5×</option>
+                  <option value="1" selected>1×</option>
+                  <option value="1.5">1.5×</option>
+                  <option value="2">2×</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="exp-config-strip exp-config-strip-2" role="list" aria-label="Tip tracking configurations">
+              <button
+                class="exp-config-card is-active"
+                type="button"
+                data-src="./media/demo-01.mp4"
+                data-label="Config 1"
+                aria-pressed="true"
+              >
+                <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                  <source src="./media/demo-01.mp4" type="video/mp4" />
+                </video>
+                <span>Tip tracking: Sprial</span>
+              </button>
+
+              <button
+                class="exp-config-card"
+                type="button"
+                data-src="./media/demo-02.mp4"
+                data-label="Config 2"
+                aria-pressed="false"
+              >
+                <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                  <source src="./media/demo-02.mp4" type="video/mp4" />
+                </video>
+                <span>Tip tracking: "CUHK"</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== SHAPE TRACKING ==================== -->
+        <section class="exp-demo-family exp-demo-family-shape" aria-labelledby="shape-tracking-title">
+          <h3 id="shape-tracking-title" class="exp-demo-family-title">shape tracking</h3>
+
+          <!-- ---------- OPEN LOOP ---------- -->
+          <div class="exp-demo-subgroup">
+            <h4 class="exp-demo-subtitle">Open loop</h4>
+
+            <div class="exp-demo-viewer" data-demo-group>
+              <div class="exp-main-player">
+                <video
+                  class="exp-main-video"
+                  controls
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                >
+                  <source src="./media/demo-06.mp4" type="video/mp4" />
+                </video>
+
+                <label class="exp-speed-control">
+                  <span>Speed</span>
+                  <select class="exp-speed-select" aria-label="Open-loop shape tracking playback speed">
+                    <option value="0.5">0.5×</option>
+                    <option value="1" selected>1×</option>
+                    <option value="1.5">1.5×</option>
+                    <option value="2">2×</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="exp-config-strip exp-config-strip-2" role="list" aria-label="Open-loop configurations">
+                <button
+                  class="exp-config-card is-active"
+                  type="button"
+                  data-src="./media/demo-06.mp4"
+                  data-label="Config 1"
+                  aria-pressed="true"
+                >
+                  <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                    <source src="./media/demo-06.mp4" type="video/mp4" />
+                  </video>
+                  <span>Open-loop: "S" shape</span>
+                </button>
+
+                <button
+                  class="exp-config-card"
+                  type="button"
+                  data-src="./media/demo-07.mp4"
+                  data-label="Config 2"
+                  aria-pressed="false"
+                >
+                  <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                    <source src="./media/demo-07.mp4" type="video/mp4" />
+                  </video>
+                  <span>Open-loop: "C" shape</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="video-row video-row-4">
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-02.mp4" type="video/mp4" /></video><figcaption>Tip tracking："C" trajectoty</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-03.mp4" type="video/mp4" /></video><figcaption>Tip tracking："U" trajectory</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-04.mp4" type="video/mp4" /></video><figcaption>Tip tracking："H" trajectory</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-05.mp4" type="video/mp4" /></video><figcaption>Tip tracking："K" trajectory</figcaption></figure>
-          </div>
+          <!-- ---------- CLOSED LOOP ---------- -->
+          <div class="exp-demo-subgroup exp-demo-subgroup-closed">
+            <h4 class="exp-demo-subtitle">Closed loop</h4>
 
-          <div class="video-row video-row-3">
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-06.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: "J" shape</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-07.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 2D "C" shape</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-08.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 2D "S" shape</figcaption></figure>
-          </div>
+            <div class="exp-demo-viewer" data-demo-group>
+              <div class="exp-main-player">
+                <video
+                  class="exp-main-video"
+                  controls
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                >
+                  <source src="./media/demo-11.mp4" type="video/mp4" />
+                </video>
 
-          <!-- New two-video row inserted between the original third and fourth rows. -->
-          <div class="video-row video-row-2">
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-09.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 3D "C" shape</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-10.mp4" type="video/mp4" /></video><figcaption>Segment-wise FTL: 3D "S" shape</figcaption></figure>
-          </div>
+                <label class="exp-speed-control">
+                  <span>Speed</span>
+                  <select class="exp-speed-select" aria-label="Closed-loop shape tracking playback speed">
+                    <option value="0.5">0.5×</option>
+                    <option value="1" selected>1×</option>
+                    <option value="1.5">1.5×</option>
+                    <option value="2">2×</option>
+                  </select>
+                </label>
+              </div>
 
-          <div class="video-row video-row-3">
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-11.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: "J" shape</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-12.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 2D "C" shape</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-13.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 2D "S" shape</figcaption></figure>
-          </div>
+              <div class="exp-config-strip exp-config-strip-3" role="list" aria-label="Closed-loop configurations">
+                <button
+                  class="exp-config-card is-active"
+                  type="button"
+                  data-src="./media/demo-11.mp4"
+                  data-label="Config 1"
+                  aria-pressed="true"
+                >
+                  <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                    <source src="./media/demo-11.mp4" type="video/mp4" />
+                  </video>
+                  <span>Closed-loop: 2D "J" "C" "S"</span>
+                </button>
 
-          <div class="video-row video-row-2">
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-14.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 3D "C" shape</figcaption></figure>
-            <figure class="demo-video-card"><video controls playsinline preload="auto"><source src="./media/demo-15.mp4" type="video/mp4" /></video><figcaption>Coordinated FTL: 3D "S" shape</figcaption></figure>
+                <button
+                  class="exp-config-card"
+                  type="button"
+                  data-src="./media/demo-12.mp4"
+                  data-label="Config 2"
+                  aria-pressed="false"
+                >
+                  <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                    <source src="./media/demo-12.mp4" type="video/mp4" />
+                  </video>
+                  <span>Closed-loop: 3D "C"</span>
+                </button>
+
+                <button
+                  class="exp-config-card"
+                  type="button"
+                  data-src="./media/demo-13.mp4"
+                  data-label="Config 3"
+                  aria-pressed="false"
+                >
+                  <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                    <source src="./media/demo-13.mp4" type="video/mp4" />
+                  </video>
+                  <span>Closed-loop: 3D "S"</span>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </section>
+
 
     <section id="planner" class="interactive-section">
       <div class="interactive-heading">
@@ -329,6 +487,7 @@
   }
   </script>
 
+  <script src="./experimental-demos.js"></script>
   <script type="module" src="./shape-planner.js"></script>
   <script type="module" src="./ftl-simulation.js"></script>
 </body>
