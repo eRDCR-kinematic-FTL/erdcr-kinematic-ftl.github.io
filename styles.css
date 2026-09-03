@@ -879,13 +879,13 @@ footer {
 }
 
 .exp-demo-family-title {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   color: #77837f;
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
-  font-weight: 750;
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  font-weight: 800;
   line-height: 1.2;
-  letter-spacing: -0.015em;
-  text-transform: lowercase;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
 .exp-demo-subgroup {
@@ -897,13 +897,14 @@ footer {
 }
 
 .exp-demo-subtitle {
-  margin: 0 0 13px;
+  margin: 0 0 16px;
   color: #8b9692;
-  font-size: clamp(.94rem, 1.3vw, 1.08rem);
-  font-weight: 700;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 750;
   line-height: 1.2;
   letter-spacing: .01em;
-  text-transform: lowercase;
+  text-align: center;
+  text-transform: none;
 }
 
 .exp-demo-viewer {
