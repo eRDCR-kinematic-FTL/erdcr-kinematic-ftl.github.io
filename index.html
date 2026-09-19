@@ -54,6 +54,7 @@
       </div>
       <!-- <p class="affiliation">LabREN · The Chinese University of Hong Kong</p> -->
       <nav class="project-links" aria-label="Project resources">
+        <a class="pill secondary" href="#demos">Demos</a>
         <a class="pill secondary" href="#experiments">Experiments</a>
         <a class="pill" href="#planner">Shape Planner</a>
         <a class="pill secondary" href="#ftl-simulation">FTL Simulation</a>
@@ -80,15 +81,76 @@
       </div>
     </section>
 
-<!-- =========================================================
-     REPLACE ONLY the current <section id="experiments">...</section>
-     with this block. Everything else in index.html stays unchanged.
-     ========================================================= -->
+    <!-- ==================== GENERAL DEMOS ==================== -->
+    <section id="demos" class="demos-section">
+      <div class="section-narrow">
+        <div class="section-heading compact-heading">
+          <p class="kicker">DEMOS</p>
+          <h2>Demos</h2>
+        </div>
+
+        <!-- Same large-player + thumbnail-selector layout used below -->
+        <div class="exp-demo-viewer" data-demo-group>
+          <div class="exp-main-player">
+            <video
+              class="exp-main-video"
+              controls
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            >
+              <source src="./media/demo-1.mp4" type="video/mp4" />
+            </video>
+
+            <label class="exp-speed-control">
+              <span>Speed</span>
+              <select class="exp-speed-select" aria-label="Demos playback speed">
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.5">1.5×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="exp-config-strip exp-config-strip-2" role="list" aria-label="Demos">
+            <button
+              class="exp-config-card is-active"
+              type="button"
+              data-src="./media/demo-1.mp4"
+              data-label="Demo 1"
+              aria-pressed="true"
+            >
+              <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                <source src="./media/demo-1.mp4" type="video/mp4" />
+              </video>
+              <span>Demo 1</span>
+            </button>
+
+            <button
+              class="exp-config-card"
+              type="button"
+              data-src="./media/demo-2.mp4"
+              data-label="Demo 2"
+              aria-pressed="false"
+            >
+              <video class="exp-config-thumb" muted playsinline preload="metadata" aria-hidden="true">
+                <source src="./media/demo-2.mp4" type="video/mp4" />
+              </video>
+              <span>Demo 2</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="experiments" class="experiments-section">
       <div class="section-narrow">
         <div class="section-heading compact-heading">
           <p class="kicker">EXPERIMENTS</p>
-          <h2>Experimental demos</h2>
+          <h2>Experimental results</h2>
         </div>
 
         <!-- ==================== TIP TRACKING ==================== -->

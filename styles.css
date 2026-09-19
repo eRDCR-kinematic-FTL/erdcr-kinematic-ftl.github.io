@@ -1062,3 +1062,25 @@ footer {
   }
 }
 
+/* ---------- Demos between Abstract and Experimental demos ---------- */
+.demos-section {
+  padding: 68px 0 72px;
+  background: #fff;
+  border-top: 1px solid #e7eeeb;
+  border-bottom: 1px solid #e7eeeb;
+}
+
+/*
+   The Demos viewer intentionally reuses the existing exp-* classes,
+   so Demo 1 / Demo 2 have exactly the same large-player + thumbnail
+   selector layout as the Experimental demos below.
+*/
+.demos-section .exp-demo-viewer {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .demos-section {
+    padding: 54px 0 60px;
+  }
+}
